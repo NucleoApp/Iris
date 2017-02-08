@@ -360,10 +360,16 @@
 			}
 
 			self._initControls();
+			self._renderPalette();
 			self.active = 'external';
 			self._dimensions();
 			self._change();
 		},
+        _paletteupdate: function() {
+            var self = this;
+            // trigger(type,event,data)
+            self._trigger('paletteupdate',{}, {palette: self._palettes});
+        },
 		_has: function(needle, haystack) {
 			var ret = false;
 			$.each(haystack, function(i,v){
@@ -375,6 +381,28 @@
 			});
 			return ret;
 		},
+        _renderPalette: function(){
+            var self = this,
+                controls = self.controls,
+                palette = $( '<a class="iris-palette" tabindex="0" />' ),
+                palettes;
+            controls = self.controls;
+            if (Array.isArray(self.options.palettes)){
+                palettes = self.options.palettes;
+            } else {
+                palettes = [];
+            }
+            while(palettes.length > 6){
+                palettes.pop();
+            }
+            $(controls.paletteContainer).find('a').remove();
+            $.each(palettes, function(index, val) {
+                palette.clone().data( 'color', val )
+                    .css( 'backgroundColor', val ).appendTo( controls.paletteContainer )
+                    .height( 10 ).width( 10 );
+            });
+            self._palettes = palettes;
+        },
 		_addPalettes: function () {
 			var container = $( '<div class="iris-palette-container" />' ),
 				palette = $( '<a class="iris-palette" tabindex="0" />' ),
@@ -574,18 +602,21 @@
 				controlOpts = self.options.controls,
 				stripScale = self._scale[controlOpts.strip];
 
-			$(controls.hexSwitcher).off('click');
-            $(controls.rgbSwitcher).off('click');
-            $(controls.addColor).off('click');
-            $(controls.hexSwitcher).on('click.additional', function(){
+			// controls.hexSwitcher.off('click');
+            // controls.rgbSwitcher.off('click');
+            // controls.addColor.off('click');
+            controls.hexSwitcher.on('click.additional', function(){
                 $(controls.hexBlock).hide();
                 $(controls.rgbBlock).show();
             });
-            $(controls.rgbSwitcher).on('click.additional', function(){
+            controls.hexField.on('change', function () {
+                self._color = $(this).val();
+            });
+            controls.rgbSwitcher.on('click.additional', function(){
                 $(controls.rgbBlock).hide();
                 $(controls.hexBlock).show();
             });
-            $(controls.addColor).on('click.additional', function(){
+            controls.addColor.on('click.additional', function(){
                 var palette = $( '<a class="iris-palette" tabindex="0" />' ),
                     palettes;
 
@@ -607,6 +638,15 @@
                         .height( 10 ).width( 10 );
                 });
                 self._palettes = palettes;
+                self._paletteupdate();
+            });
+            controls.paletteContainer.on('click', function (e) {
+                if($(e.target).hasClass('iris-palette')){
+                    e.preventDefault();
+                    self._color.fromCSS( $(e.target).data('color') );
+                    self.active = 'external';
+                    self._change();
+                }
             });
 
 			controls.stripSlider.slider({
@@ -709,7 +749,7 @@
 
 		_paletteListeners: function() {
 			var self = this;
-			self.picker.find('.iris-palette-container').on('click.palette', '.iris-palette', function() {
+			self.controls.paletteContainer.on('click.palette', '.iris-palette', function() {
 				self._color.fromCSS( $(this).data('color') );
 				self.active = 'external';
 				self._change();
