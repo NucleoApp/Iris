@@ -594,7 +594,6 @@
                 } else {
                     palettes = [];
                 }
-                console.log(self.options.color);
                 if(palettes.indexOf(self.options.color) < 0){
                     palettes.unshift(self.options.color);
                 }
@@ -608,8 +607,6 @@
                         .height( 10 ).width( 10 );
                 });
                 self._palettes = palettes;
-                console.log(palettes);
-                console.log(self._palettes);
             });
 
 			controls.stripSlider.slider({
