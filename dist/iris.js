@@ -982,9 +982,10 @@
 			};
 		},
 		show: function() {
-            if(window.irisPaletteArray) {
-                this._palettes = window.irisPaletteArray;
-            }
+			if($('.iris-picker:visible').length > 0){
+				$('.iris-picker').hide();
+			}
+			this._renderPalette();
 			this.picker.show();
 		},
 		hide: function() {

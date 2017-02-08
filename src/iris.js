@@ -980,6 +980,10 @@
 			};
 		},
 		show: function() {
+			if($('.iris-picker:visible').length > 0){
+				$('.iris-picker').hide();
+			}
+			this._renderPalette();
 			this.picker.show();
 		},
 		hide: function() {
