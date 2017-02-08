@@ -366,6 +366,7 @@
         _paletteupdate: function() {
             var self = this;
             // trigger(type,event,data)
+            window.irisPaletteArray = self._palettes;
             self._trigger('paletteupdate',{}, {palette: self._palettes});
         },
 		_has: function(needle, haystack) {
