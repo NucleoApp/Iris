@@ -339,12 +339,12 @@
 			$(self.controls.rgbFieldTwo).val(rgb.g);
 			$(self.controls.rgbFieldThree).val(rgb.b);
 
-			// small sanity check - if we chose hsv, change default controls away from hsl
-			if ( self.options.mode === 'hsv' && self._has('l', self.options.controls) ) {
-				self.options.controls = self._defaultHSVControls;
-			} else if ( self.options.mode === 'hsl' && self._has('v', self.options.controls) ) {
-				self.options.controls = self._defaultHSLControls;
-			}
+            // small sanity check - if we chose hsv, change default controls away from hsl
+            if ( self.options.mode === 'hsv' && self._has('l', self.options.controls) ) {
+                self.options.controls = self._defaultHSVControls;
+            } else if ( self.options.mode === 'hsl' && self._has('v', self.options.controls) ) {
+                self.options.controls = self._defaultHSLControls;
+            }
 
 			// store it. HSL gets squirrely
 			self.hue = self._color.h();
@@ -457,8 +457,8 @@
 						}
 						stops = color.toHsl();
 					} else {
-						if ( control === 'strip' ) {
-							stops = { s: color.s, l: color.l };
+						if ( control === 'strip' ){
+						    stops = { s: 100, l: 50};
 						} else {
 							stops = { s: 100, l: color.l };
 						}
