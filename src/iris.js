@@ -386,7 +386,6 @@
                 colorBgTop = this.element.parent().offset().top,
                 colorBgLeft = this.element.parent().offset().left,
                 pickerWidth = this.picker.width(),
-                colorBgHeight = this.element.innerHeight(),
                 pickerLeft = 0,
                 pickerTop = 0;
 

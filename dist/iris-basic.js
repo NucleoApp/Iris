@@ -1,4 +1,4 @@
-/*! Iris Color Picker - v1.0.7 - 2017-02-09
+/*! Iris Color Picker - v1.0.7 - 2017-03-21
 * https://github.com/Automattic/Iris
 * Copyright (c) 2017 Matt Wiebe; Licensed GPLv2 */
 (function( $, undef ){
@@ -382,6 +382,26 @@
 			});
 			return ret;
 		},
+		_placePicker: function(){
+            var self = this,
+                pickerHeight = this.picker.innerHeight(),
+                colorBgTop = this.element.parent().offset().top,
+                colorBgLeft = this.element.parent().offset().left,
+                pickerWidth = this.picker.width(),
+                pickerLeft = 0,
+                pickerTop = 0;
+
+            pickerTop = colorBgTop - pickerHeight / 2.0;
+            pickerLeft = colorBgLeft - pickerWidth;
+
+            if( pickerTop < 0 ) {
+                pickerTop = 0;
+            }
+            if( pickerLeft < 0 ) {
+                pickerLeft = 0;
+            }
+            self.picker.css({'top':pickerTop, 'left': pickerLeft});
+        },
         _renderPalette: function(){
             var self = this,
                 controls = self.controls,
@@ -1027,6 +1047,7 @@
 				$('.iris-picker').hide();
 			}
 			this._renderPalette();
+			this._placePicker();
 			this.picker.show();
 		},
 		hide: function() {
