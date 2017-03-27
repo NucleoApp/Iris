@@ -1,4 +1,4 @@
-/*! Iris Color Picker - v1.0.7 - 2017-03-21
+/*! Iris Color Picker - v1.0.7 - 2017-03-27
 * https://github.com/Automattic/Iris
 * Copyright (c) 2017 Matt Wiebe; Licensed GPLv2 */
 (function( $, undef ){
@@ -707,6 +707,8 @@
                     e.preventDefault();
                     self._color.fromCSS( $(e.target).data('color') );
                     self.active = 'external';
+                    self._unbindDeleteKey();
+                    self._bindDeleteKey($(e.target).data('color'));
                     self._change();
                 }
             });
@@ -943,6 +945,32 @@
                     b: parseInt(result[3], 16)
                 } : null;
 		},
+        _bindDeleteKey: function (color) {
+			var self = this;
+			$(window).on('keyup.color', function (e) {
+                if((e.keyCode == 46) || (e.keyCode == 8)) {
+                    self._deleteColorFromPalette(color);
+                    self._unbindDeleteKey();
+                }
+            });
+        },
+        _unbindDeleteKey: function () {
+			$(window).off('keyup.color');
+        },
+		_deleteColorFromPalette: function (color) {
+            var self, palettes, givenColor, i, index, len;
+            self = this;
+            palettes = self._palettes;
+            for (index = i = 0, len = palettes.length; i < len; index = ++i) {
+                givenColor = palettes[index];
+                if (givenColor == color) {
+                    palettes.splice(index, 1);
+                }
+            }
+            self.options.palettes = palettes;
+            self._renderPalette();
+            self._paletteupdate();
+        },
 		_change: function() {
 			var self = this,
 				controls = self.controls,
