@@ -1089,7 +1089,11 @@
 				return this._color.toString();
 			}
 			this.option('color', newColor);
-		}
+		},
+        palettes: function (palette) {
+			this.option('palettes', palette);
+			this._renderPalette();
+        }
 	};
 	// initialize the widget
 	$.widget( 'a8c.iris', Iris );
