@@ -2,7 +2,7 @@
 (function( $, undef ){
 	var _html, nonGradientIE, gradientType, vendorPrefixes, _css, Iris, UA, isIE, IEVersion;
 
-	_html = '<div class="iris-picker"><div class="iris-picker-inner"><div class="iris-square"><a class="iris-square-value"><span class="iris-square-handle ui-slider-handle"></span></a><div class="iris-square-inner iris-square-horiz"></div><div class="iris-square-inner iris-square-vert"></div></div><div class="iris-slider iris-strip"><div class="iris-slider-offset"></div></div><div class="color-inputs-wrapper"><p class="js-hex hex-wrapper"><label for="">Hex</label><input type="text" class="color-input" value="#" maxlength="7"></p><p class="js-rgb rgb-wrapper"><label for="">RGB</label><input type="text" class="red" value="" maxlength="3"><input type="text" class="green" value="" maxlength="3"><input type="text" class="blue" value="" maxlength="3"></p></div><div class="iris-add-palette"></div></div><div class="iris-palette-container"></div></div>';
+	_html = '<div class="iris-picker"><div class="iris-picker-inner"><div class="iris-square"><a class="iris-square-value"><span class="iris-square-handle ui-slider-handle"></span></a><div class="iris-square-inner iris-square-horiz"></div><div class="iris-square-inner iris-square-vert"></div></div><div class="iris-slider iris-strip"><div class="iris-slider-offset"></div></div><div class="external-picker"><button class="iris-external-picker">Picker</button></div><div class="color-inputs-wrapper"><p class="js-hex hex-wrapper"><label for="">Hex</label><input type="text" class="color-input" value="#" maxlength="7"></p><p class="js-rgb rgb-wrapper"><label for="">RGB</label><input type="text" class="red" value="" maxlength="3"><input type="text" class="green" value="" maxlength="3"><input type="text" class="blue" value="" maxlength="3"></p></div><div class="iris-add-palette"></div></div><div class="iris-palette-container"></div></div>';
 	_css = '.iris-picker{display:block;position:relative}.iris-picker,.iris-picker *{-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input+.iris-picker{margin-top:4px}.iris-error{background-color:#ffafaf}.iris-border{border-radius:3px;border:1px solid #aaa;width:200px;background-color:#fff}.iris-picker-inner{position:absolute;top:0;right:0;left:0;bottom:0}.iris-border .iris-picker-inner{top:10px;right:10px;left:10px;bottom:10px}.iris-picker .iris-square-inner{position:absolute;left:0;right:0;top:0;bottom:0}.iris-picker .iris-square,.iris-picker .iris-slider,.iris-picker .iris-square-inner,.iris-picker .iris-palette{border-radius:3px;box-shadow:inset 0 0 5px rgba(0,0,0,.4);height:100%;width:12.5%;float:left;margin-right:5%}.iris-picker .iris-square{width:76%;margin-right:10%;position:relative}.iris-picker .iris-square-inner{width:auto;margin:0}.iris-ie-9 .iris-square,.iris-ie-9 .iris-slider,.iris-ie-9 .iris-square-inner,.iris-ie-9 .iris-palette{box-shadow:none;border-radius:0}.iris-ie-9 .iris-square,.iris-ie-9 .iris-slider,.iris-ie-9 .iris-palette{outline:1px solid rgba(0,0,0,.1)}.iris-ie-lt9 .iris-square,.iris-ie-lt9 .iris-slider,.iris-ie-lt9 .iris-square-inner,.iris-ie-lt9 .iris-palette{outline:1px solid #aaa}.iris-ie-lt9 .iris-square .ui-slider-handle{outline:1px solid #aaa;background-color:#fff;-ms-filter:"alpha(Opacity=30)"}.iris-ie-lt9 .iris-square .iris-square-handle{background:0 0;border:3px solid #fff;-ms-filter:"alpha(Opacity=50)"}.iris-picker .iris-strip{margin-right:0;position:relative}.iris-picker .iris-strip .ui-slider-handle{position:absolute;background:0 0;margin:0;right:-3px;left:-3px;border:4px solid #aaa;border-width:4px 3px;width:auto;height:6px;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.2);opacity:.9;z-index:5;cursor:ns-resize}.iris-strip .ui-slider-handle:before{content:" ";position:absolute;left:-2px;right:-2px;top:-3px;bottom:-3px;border:2px solid #fff;border-radius:3px}.iris-picker .iris-slider-offset{position:absolute;top:11px;left:0;right:0;bottom:-3px;width:auto;height:auto;background:transparent;border:0;border-radius:0}.iris-picker .iris-square-handle{background:transparent;border:5px solid #aaa;border-radius:50%;border-color:rgba(128,128,128,.5);box-shadow:none;width:12px;height:12px;position:absolute;left:-10px;top:-10px;cursor:move;opacity:1;z-index:10}.iris-picker .ui-state-focus .iris-square-handle{opacity:.8}.iris-picker .iris-square-handle:hover{border-color:#999}.iris-picker .iris-square-value:focus .iris-square-handle{box-shadow:0 0 2px rgba(0,0,0,.75);opacity:.8}.iris-picker .iris-square-handle:hover::after{border-color:#fff}.iris-picker .iris-square-handle::after{position:absolute;bottom:-4px;right:-4px;left:-4px;top:-4px;border:3px solid #f9f9f9;border-color:rgba(255,255,255,.8);border-radius:50%;content:" "}.iris-picker .iris-square-value{width:8px;height:8px;position:absolute}.iris-ie-lt9 .iris-square-value,.iris-mozilla .iris-square-value{width:1px;height:1px}.iris-palette-container{position:absolute;bottom:0;left:0;margin:0;padding:0}.iris-border .iris-palette-container{left:10px;bottom:10px}.iris-picker .iris-palette{margin:0;cursor:pointer}.iris-square-handle,.ui-slider-handle{border:0;outline:0}';
 
 	// Even IE9 dosen't support gradients. Elaborate sigh.
@@ -244,6 +244,7 @@
 				vert: 'l', // vertical defaults to lightness
 				strip: 'h' // right strip defaults to hue
 			},
+			externalPicker: true,
 			hide: true, // hide the color picker by default
 			border: true, // draw a border around the collection of UI elements
 			target: false, // a DOM element / jQuery selector that the element will be appended within. Only used when called on an input.
@@ -329,7 +330,8 @@
 				rgbFieldTwo: self.picker.find('.rgb-wrapper input.green'),
 				rgbFieldThree: self.picker.find('.rgb-wrapper input.blue'),
 				addColor:    self.picker.find('.iris-add-palette'),
-                paletteContainer: self.picker.find('.iris-palette-container')
+				paletteContainer: self.picker.find('.iris-palette-container'),
+				externalPicker: self.picker.find('.iris-external-picker')
 			};
 
             // HEX value
@@ -344,7 +346,11 @@
                 self.options.controls = self._defaultHSVControls;
             } else if ( self.options.mode === 'hsl' && self._has('v', self.options.controls) ) {
                 self.options.controls = self._defaultHSLControls;
-            }
+			}
+
+			if (!self.options.externalPicker){
+				$(self.controls).parent().remove();
+			}
 
 			// store it. HSL gets squirrely
 			self.hue = self._color.h();
@@ -613,7 +619,17 @@
 				});
 			}
 		},
-
+		_openExternalPicker: function() {
+			var self = this,
+                ipcRenderer = require('electron').ipcRenderer,
+				uuid = Math.round(Math.random(1000)),
+				evName = ('pickColor'+uuid);
+			ipcRenderer.send('pickColor', uuid);
+			ipcRenderer.once(evName, function (event, color) {
+				self._color = self._color.fromCSS(color);
+                self._change();
+			});
+		},
 		_initControls: function() {
 			var self = this,
 				controls = self.controls,
@@ -624,7 +640,10 @@
             controls.hexSwitcher.on('click.additional', function(){
                 $(controls.hexBlock).hide();
                 $(controls.rgbBlock).show();
-            });
+			});
+			controls.externalPicker.on('click', function(){
+				self._openExternalPicker();
+			});
             controls.hexField.on('change', function () {
                 var val = $(this).val();
                 if(val.length > 7){
