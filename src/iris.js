@@ -624,8 +624,10 @@
                 ipcRenderer = require('electron').ipcRenderer,
 				uuid = Math.round(Math.random(1000)),
 				evName = ('pickColor'+uuid);
+			$(self.controls.externalPicker).addClass('color-picker-clicked');
 			ipcRenderer.send('pickColor', uuid);
 			ipcRenderer.once(evName, function (event, color) {
+				$(self.controls.externalPicker).removeClass('color-picker-clicked');
 				self._color = self._color.fromCSS(color);
                 self._change();
 			});
@@ -707,7 +709,7 @@
                 if(palettes.indexOf(self.options.color) < 0){
                     palettes.unshift(self.options.color);
                 }
-                while(palettes.length > 6){
+                while(palettes.length > 7){
                     palettes.pop();
                 }
                 $(controls.paletteContainer).find('a').remove();
