@@ -1090,10 +1090,11 @@
 			};
 		},
 		_focusField: function(){
-			if($('p.hex-wrapper').is(':visible')){
-				$('p.hex-wrapper input.color-input').focus();
+			var self = this;
+			if($(self.controls.hexBlock).is(':visible')){
+				$(self.controls.hexField).focus();
 			}else{
-				$('p.rgb-wrapper input.red').focus();
+				$(self.controls.rgbFieldOne).focus();
 			}
 		},
 		show: function() {
@@ -1102,8 +1103,8 @@
 			}
 			this._renderPalette();
 			this._placePicker();
-			this._focusField();
 			this.picker.show();
+			this._focusField();
 		},
 		hide: function() {
 			this.picker.hide();
