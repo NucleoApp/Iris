@@ -1091,10 +1091,16 @@
 		},
 		_focusField: function(){
 			var self = this;
+			function focusOnField(field){
+				$(field).focus();
+				setTimeout(function(){
+					$(field).select();
+				}, 10);
+			}
 			if($(self.controls.hexBlock).is(':visible')){
-				$(self.controls.hexField).focus();
-			}else{
-				$(self.controls.rgbFieldOne).focus();
+				focusOnField($(self.controls.hexField));
+			} else {
+				focusOnField($(self.controls.rgbFieldOne));
 			}
 		},
 		show: function() {
