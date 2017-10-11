@@ -967,7 +967,7 @@
         _bindDeleteKey: function (color) {
 			var self = this;
 			$(window).on('keyup.color', function (e) {
-                if((e.keyCode == 46) || (e.keyCode == 8)) {
+                if((e.keyCode === 46) || (e.keyCode === 8)) {
                     self._deleteColorFromPalette(color);
                     self._unbindDeleteKey();
                 }
@@ -982,7 +982,7 @@
             palettes = self._palettes;
             for (index = i = 0, len = palettes.length; i < len; index = ++i) {
                 givenColor = palettes[index];
-                if (givenColor == color) {
+                if (givenColor === color) {
                     palettes.splice(index, 1);
                 }
             }
@@ -1089,12 +1089,20 @@
 				return result;
 			};
 		},
+		_focusField: function(){
+			if($('p.hex-wrapper').is(':visible')){
+				$('p.hex-wrapper input.color-input').focus();
+			}else{
+				$('p.rgb-wrapper input.red').focus();
+			}
+		},
 		show: function() {
 			if($('.iris-picker:visible').length > 0){
 				$('.iris-picker').hide();
 			}
 			this._renderPalette();
 			this._placePicker();
+			this._focusField();
 			this.picker.show();
 		},
 		hide: function() {
