@@ -244,7 +244,7 @@
 				vert: 'l', // vertical defaults to lightness
 				strip: 'h' // right strip defaults to hue
 			},
-			externalPicker: true,
+			externalPicker: false, // display external color picker
 			hide: true, // hide the color picker by default
 			border: true, // draw a border around the collection of UI elements
 			target: false, // a DOM element / jQuery selector that the element will be appended within. Only used when called on an input.
@@ -348,8 +348,10 @@
                 self.options.controls = self._defaultHSLControls;
 			}
 
-			if (!self.options.externalPicker){
-				$(self.controls).parent().remove();
+			if ( self.options.externalPicker ){
+				// ignored
+			}else{
+				$(self.controls.externalPicker).parent().remove();
 			}
 
 			// store it. HSL gets squirrely
