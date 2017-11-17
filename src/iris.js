@@ -419,7 +419,7 @@
             } else {
                 palettes = [];
             }
-            while(palettes.length > 6){
+            while(palettes.length > 7){
                 palettes.pop();
             }
             $(controls.paletteContainer).find('a').remove();

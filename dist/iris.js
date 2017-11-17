@@ -1,4 +1,4 @@
-/*! Iris Color Picker - v1.0.7 - 2017-10-12
+/*! Iris Color Picker - v1.0.7 - 2017-11-17
 * https://github.com/Automattic/Iris
 * Copyright (c) 2017 Matt Wiebe; Licensed GPLv2 */
 (function( $, undef ){
@@ -421,7 +421,7 @@
             } else {
                 palettes = [];
             }
-            while(palettes.length > 6){
+            while(palettes.length > 7){
                 palettes.pop();
             }
             $(controls.paletteContainer).find('a').remove();
