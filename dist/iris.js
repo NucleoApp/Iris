@@ -1,6 +1,6 @@
-/*! Iris Color Picker - v1.0.7 - 2017-11-17
+/*! Iris Color Picker - v1.0.7 - 2018-04-30
 * https://github.com/Automattic/Iris
-* Copyright (c) 2017 Matt Wiebe; Licensed GPLv2 */
+* Copyright (c) 2018 Matt Wiebe; Licensed GPLv2 */
 (function( $, undef ){
 	var _html, nonGradientIE, gradientType, vendorPrefixes, _css, Iris, UA, isIE, IEVersion;
 
@@ -739,7 +739,7 @@
 			controls.stripSlider.slider({
 				orientation: 'vertical',
 				max: stripScale,
-				slide: function( event, ui ) {
+				stop: function( event, ui ) {
 					self.active = 'strip';
 					// "reverse" for hue.
 					if ( controlOpts.strip === 'h' ) {
@@ -755,16 +755,14 @@
 				containment: controls.square.find( '.iris-square-inner' ),
 				zIndex: 1000,
 				cursor: 'move',
-				drag: function( event, ui ) {
-					self._squareDrag( event, ui );
-				},
 				start: function() {
 					square.addClass( 'iris-dragging' );
 					$(this).addClass( 'ui-state-focus' );
 				},
-				stop: function() {
+				stop: function( event, ui ) {
 					square.removeClass( 'iris-dragging' );
 					$(this).removeClass( 'ui-state-focus' );
+					self._squareDrag( event, ui );
 				}
 			}).on( 'mousedown mouseup', function( event ) {
 				var focusClass = 'ui-state-focus';
