@@ -737,7 +737,7 @@
 			controls.stripSlider.slider({
 				orientation: 'vertical',
 				max: stripScale,
-				stop: function( event, ui ) {
+				slide: function( event, ui ) {
 					self.active = 'strip';
 					// "reverse" for hue.
 					if ( controlOpts.strip === 'h' ) {
@@ -753,14 +753,16 @@
 				containment: controls.square.find( '.iris-square-inner' ),
 				zIndex: 1000,
 				cursor: 'move',
+				drag: function( event, ui ) {
+					self._squareDrag( event, ui );
+				},
 				start: function() {
 					square.addClass( 'iris-dragging' );
 					$(this).addClass( 'ui-state-focus' );
 				},
-				stop: function( event, ui ) {
+				stop: function() {
 					square.removeClass( 'iris-dragging' );
 					$(this).removeClass( 'ui-state-focus' );
-					self._squareDrag( event, ui );
 				}
 			}).on( 'mousedown mouseup', function( event ) {
 				var focusClass = 'ui-state-focus';
