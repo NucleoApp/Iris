@@ -244,6 +244,7 @@
 				vert: 'l', // vertical defaults to lightness
 				strip: 'h' // right strip defaults to hue
 			},
+			pickerSide: false, // option to place picker on the right side of the input
 			externalPicker: false, // display external color picker
 			hide: true, // hide the color picker by default
 			border: true, // draw a border around the collection of UI elements
@@ -406,7 +407,11 @@
             if( pickerLeft < 0 ) {
                 pickerLeft = 0;
             }
+            if( self.options.pickerSide && self.options.pickerSide == 'right') {
+							pickerLeft = pickerLeft + pickerWidth + 30;
+            }
             self.picker.css({'top':pickerTop, 'left': pickerLeft});
+            
         },
         _renderPalette: function(){
             var self = this,

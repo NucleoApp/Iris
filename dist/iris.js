@@ -1,6 +1,6 @@
-/*! Iris Color Picker - v1.0.7 - 2017-11-17
+/*! Iris Color Picker - v1.0.7 - 2019-02-21
 * https://github.com/Automattic/Iris
-* Copyright (c) 2017 Matt Wiebe; Licensed GPLv2 */
+* Copyright (c) 2019 Matt Wiebe; Licensed GPLv2 */
 (function( $, undef ){
 	var _html, nonGradientIE, gradientType, vendorPrefixes, _css, Iris, UA, isIE, IEVersion;
 
@@ -246,6 +246,7 @@
 				vert: 'l', // vertical defaults to lightness
 				strip: 'h' // right strip defaults to hue
 			},
+			pickerSide: false, // option to place picker on the right side of the input
 			externalPicker: false, // display external color picker
 			hide: true, // hide the color picker by default
 			border: true, // draw a border around the collection of UI elements
@@ -408,7 +409,11 @@
             if( pickerLeft < 0 ) {
                 pickerLeft = 0;
             }
+            if( self.options.pickerSide && self.options.pickerSide == 'right') {
+							pickerLeft = pickerLeft + pickerWidth + 30;
+            }
             self.picker.css({'top':pickerTop, 'left': pickerLeft});
+            
         },
         _renderPalette: function(){
             var self = this,
